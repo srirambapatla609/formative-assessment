@@ -1,0 +1,74 @@
+---
+title: "Formative assessment"
+author: "Sriram Bapatla"
+format: html
+editor: visual
+---
+
+## Playing around
+
+First, let's play around with the distribution, as I'm pretty unfamiliar with it overall. Let's start with the simpler case of $\xi=0$, meaning a pdf of $$f(x)= 1/\sigma\exp(-\frac{x-u}{\sigma}) $$ Let's view a couple distributions across a range of parameters for $u$ and $\sigma$.
+
+```{r}
+u = 2
+x<-seq(u,5,0.1)
+sigma = .2
+
+plot(x,(1/sigma)*exp(-(x-u)/sigma),pch = 16)
+
+```
+
+This is just the exponential function when $\xi=0$. Now, let's see what it looks like when we add in the scaling factor.
+
+```{r}
+
+u = 0
+x<-seq(u,5,0.1)
+sigma = 1
+xi1 = 4
+xitests<- c(-3,-2,-1,-0.5,-0.2)
+
+plot(x, (1/sigma)*(1 + xi*(x-u)/sigma)**(-1/xi-1),pch = 16)
+for (i in 1:5) {
+  points(x, (1/sigma)*(1 + xitests[i]*(x-u)/sigma)**(-1/xitests[i]-1),pch = 16)
+  print(i)
+}
+
+```
+
+Okay so now let's go to the problem
+
+```{r}
+u = 2
+x<-seq(0.001,1,.01)
+sigma = .2
+
+##for xi = 0
+cdf<- 1-exp(-1*(x-u)/sigma)
+quantile_test<- u-sigma*log((1-x),exp(1))
+
+plot(x,quantile_test,pch = 16)
+
+```
+Cool now the general case 
+
+``` {r}
+
+u = 2
+x<-seq(0.001,1,.01)
+sigma = .2
+xi = 1
+y<- (sigma/xi)*((1-y)**(-1*xi) - 1) + u
+
+dom<-seq(u,5,0.1)
+cdf<- 1- (1+xi*(dom-u)/sigma)**(-1/xi)
+
+plot(x,y,pch = 16)
+plot(dom,cdf,pch = 16)
+
+
+
+```
+
+
+
